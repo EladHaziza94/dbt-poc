@@ -1,0 +1,26 @@
+version: 2
+
+sources:
+  - name: WSC_ENV_DB
+    description: 'WSC raw data'
+    database: |
+      {%- if  target.name == "uat" -%} WSC_UAT
+      {%- elif target.name == "prod"  -%} WSC_PROD
+      {%- else -%} invalid_database
+      {%- endif -%}
+    schema: MRR
+
+    tables: 
+      - name: MRR_PUBLISHJOBUPLOADREFERENCES
+        description: 'MRR_PUBLISHJOBUPLOADREFERENCES description...'
+      - name: MRR_EVENTCLIPS
+        description: 'MRR_EVENTCLIPS description...'
+      - name: MRR_SOCIAL_ENGAGEMENT_FACEBOOK
+        description: 'Facebook API data'
+      - name: MRR_SOCIAL_ENGAGEMENT_YOUTUBE
+        description: 'YOUTUBE API data'
+        freshness:
+          warn_after:
+            count: 5 # MAX VIDEO_PUBLISHED_AT date should be less than 5 days, else warn us.
+            period: day
+        loaded_at_field: "VIDEO_PUBLISHED_AT::timestamp"

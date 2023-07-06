@@ -1,0 +1,12 @@
+
+version: 2
+
+models:
+  - name: social_engagement_fact
+    description: "A fact view on all social data"
+    columns:
+      - name: page_id
+        description: "A Facebook page identifier"
+        tests:
+          - unique
+          - not_null
